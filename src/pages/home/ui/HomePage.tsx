@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export function HomePage() {
   return (
     <div className="animate-fade-in">
@@ -8,7 +10,10 @@ export function HomePage() {
 
       {/* Quick Stats */}
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/10">
+        <Link
+          to="/place-content"
+          className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/10"
+        >
           <div className="flex items-center gap-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-50 text-primary-600 transition-colors duration-200 group-hover:bg-primary-100">
               <svg
@@ -41,7 +46,7 @@ export function HomePage() {
               </p>
             </div>
           </div>
-        </div>
+        </Link>
 
         <div className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/10">
           <div className="flex items-center gap-4">
