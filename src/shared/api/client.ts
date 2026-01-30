@@ -18,7 +18,7 @@ apiClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor - 에러 처리
@@ -30,5 +30,5 @@ apiClient.interceptors.response.use(
       // 필요시 로그인 페이지로 리다이렉트
     }
     return Promise.reject(error);
-  }
+  },
 );
