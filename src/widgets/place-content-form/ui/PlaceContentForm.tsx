@@ -1,7 +1,4 @@
-import {
-  CHIP_LABELS,
-  type ChipCategory,
-} from '@/entities/place';
+import { CHIP_LABELS, type ChipCategory } from '@/entities/place';
 import { usePlaceContentForm } from '@/features/place-content';
 import { Alert, Button, Card, Select, Textarea } from '@/shared/ui';
 
@@ -22,6 +19,8 @@ export function PlaceContentForm() {
     content,
     setContent,
     selectedPlace,
+    placeDetail,
+    isLoadingPlaceDetail,
     isValid,
     isPending,
     isSuccess,
@@ -71,31 +70,106 @@ export function PlaceContentForm() {
         />
 
         {/* 선택된 장소 정보 */}
-        {selectedPlace && (
+        {placeId && (
           <div className="rounded-lg bg-primary-50 p-4">
-            <h4 className="text-sm font-medium text-primary-800">
-              선택된 장소 정보
-            </h4>
-            <dl className="mt-2 space-y-1 text-sm text-primary-700">
-              <div className="flex gap-2">
-                <dt className="font-medium">ID:</dt>
-                <dd>{selectedPlace.placeId}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="font-medium">이름:</dt>
-                <dd>{selectedPlace.name}</dd>
-              </div>
-              {selectedPlace.subName && (
-                <div className="flex gap-2">
-                  <dt className="font-medium">부가 이름:</dt>
-                  <dd>{selectedPlace.subName}</dd>
-                </div>
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-medium text-primary-800">
+                선택된 장소 정보
+              </h4>
+              {isLoadingPlaceDetail && (
+                <span className="text-xs text-primary-600">불러오는 중...</span>
               )}
-              <div className="flex gap-2">
-                <dt className="font-medium">현재 내용:</dt>
-                <dd>{selectedPlace.content ?? '(없음)'}</dd>
-              </div>
-            </dl>
+            </div>
+
+            {placeDetail ? (
+              <dl className="mt-2 space-y-2 text-sm text-primary-700">
+                <div className="flex gap-2">
+                  <dt className="font-medium">ID:</dt>
+                  <dd>{placeDetail.placeId}</dd>
+                </div>
+                <div className="flex gap-2">
+                  <dt className="font-medium">이름:</dt>
+                  <dd>{placeDetail.name}</dd>
+                </div>
+                {placeDetail.subName && (
+                  <div className="flex gap-2">
+                    <dt className="font-medium">부가 이름:</dt>
+                    <dd>{placeDetail.subName}</dd>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <dt className="font-medium">현재 내용:</dt>
+                  <dd>{placeDetail.content || '(없음)'}</dd>
+                </div>
+                <div className="flex gap-2">
+                  <dt className="font-medium">위치:</dt>
+                  <dd>
+                    위도 {placeDetail.latitude.toFixed(6)}, 경도{' '}
+                    {placeDetail.longitude.toFixed(6)}
+                  </dd>
+                </div>
+                {placeDetail.friends.length > 0 && (
+                  <div>
+                    <dt className="mb-1 font-medium">친구 목록:</dt>
+                    <dd className="space-y-1">
+                      {placeDetail.friends.map((friend, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-2 rounded bg-white px-2 py-1"
+                        >
+                          {friend.profileUrl && (
+                            <img
+                              src={friend.profileUrl}
+                              alt={friend.nickname}
+                              className="h-6 w-6 rounded-full object-cover"
+                            />
+                          )}
+                          <span>{friend.nickname}</span>
+                        </div>
+                      ))}
+                    </dd>
+                  </div>
+                )}
+                {placeDetail.imageUrls.length > 0 && (
+                  <div>
+                    <dt className="mb-1 font-medium">이미지:</dt>
+                    <dd className="flex flex-wrap gap-2">
+                      {placeDetail.imageUrls.map((url, index) => (
+                        <img
+                          key={index}
+                          src={url}
+                          alt={`장소 이미지 ${index + 1}`}
+                          className="h-20 w-20 rounded object-cover"
+                        />
+                      ))}
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            ) : (
+              selectedPlace && (
+                <dl className="mt-2 space-y-1 text-sm text-primary-700">
+                  <div className="flex gap-2">
+                    <dt className="font-medium">ID:</dt>
+                    <dd>{selectedPlace.placeId}</dd>
+                  </div>
+                  <div className="flex gap-2">
+                    <dt className="font-medium">이름:</dt>
+                    <dd>{selectedPlace.name}</dd>
+                  </div>
+                  {selectedPlace.subName && (
+                    <div className="flex gap-2">
+                      <dt className="font-medium">부가 이름:</dt>
+                      <dd>{selectedPlace.subName}</dd>
+                    </div>
+                  )}
+                  <div className="flex gap-2">
+                    <dt className="font-medium">현재 내용:</dt>
+                    <dd>{selectedPlace.content ?? '(없음)'}</dd>
+                  </div>
+                </dl>
+              )
+            )}
           </div>
         )}
 

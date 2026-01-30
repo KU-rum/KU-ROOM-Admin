@@ -1,12 +1,18 @@
 // API
-export { getPlaces, updatePlaceContent } from './api/placeApi';
-export { useGetPlaces, useUpdatePlaceContent } from './api/queries';
+export { getPlaceById, getPlaces, updatePlaceContent } from './api/placeApi';
+export {
+  useGetPlaceById,
+  useGetPlaces,
+  useUpdatePlaceContent,
+} from './api/queries';
 
 // Types
 export type {
   ChipCategory,
+  Friend,
   GetPlacesRequest,
   Place,
+  PlaceDetail,
   UpdatePlaceContentBody,
   UpdatePlaceContentRequest,
 } from './model/types';

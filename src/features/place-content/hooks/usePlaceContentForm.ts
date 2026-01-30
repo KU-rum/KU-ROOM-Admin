@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import {
   type ChipCategory,
+  useGetPlaceById,
   useGetPlaces,
   useUpdatePlaceContent,
 } from '@/entities/place';
@@ -19,6 +20,15 @@ export function usePlaceContentForm() {
   } = useGetPlaces(selectedChip);
 
   const places = placesData?.data ?? [];
+
+  // 장소 선택 시 상세 정보 조회
+  const {
+    data: placeDetailData,
+    isLoading: isLoadingPlaceDetail,
+    isError: isPlaceDetailError,
+  } = useGetPlaceById(placeId || null);
+
+  const placeDetail = placeDetailData?.data;
 
   const { mutate, isPending, isSuccess, isError, error, reset } =
     useUpdatePlaceContent();
@@ -72,6 +82,11 @@ export function usePlaceContentForm() {
 
     // Selected place info
     selectedPlace,
+
+    // Place detail
+    placeDetail,
+    isLoadingPlaceDetail,
+    isPlaceDetailError,
 
     // Validation
     isValid,

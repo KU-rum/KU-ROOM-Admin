@@ -29,7 +29,13 @@ export const CHIP_LABELS: Record<ChipCategory, string> = {
   BANK: '은행',
 };
 
-// 장소 정보
+// 친구 정보
+export interface Friend {
+  nickname: string;
+  profileUrl: string;
+}
+
+// 장소 정보 (지도 칩 API)
 export interface Place {
   placeId: number;
   name: string;
@@ -38,6 +44,19 @@ export interface Place {
   latitude: number;
   longitude: number;
   friends: string[];
+}
+
+// 장소 상세 정보 (장소 정보 조회 API)
+export interface PlaceDetail {
+  placeId: number;
+  name: string;
+  subName: string;
+  content: string;
+  latitude: number;
+  longitude: number;
+  friends: Friend[];
+  ranks: null;
+  imageUrls: string[];
 }
 
 // 장소 목록 조회 요청
