@@ -6,6 +6,7 @@ import type {
   PlaceDetail,
   UpdatePlaceContentBody,
   UpdatePlaceContentRequest,
+  UpdatePlaceImagesRequest,
 } from '../model/types';
 
 // 지도 칩 정보 조회 (장소 목록)
@@ -43,6 +44,31 @@ export async function updatePlaceContent({
   if (response.data.code === 1200) {
     throw new Error(response.data.message);
   }
+
+  return response.data;
+}
+
+// 장소 이미지 수정
+export async function updatePlaceImages({
+  placeId,
+  images,
+}: UpdatePlaceImagesRequest): Promise<ApiResponse> {
+  const formData = new FormData();
+
+  // 여러 개의 이미지 파일 추가
+  images.forEach((image) => {
+    formData.append('images', image);
+  });
+
+  const response = await apiClient.put<ApiResponse>(
+    `/places/${placeId}/images`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
 
   return response.data;
 }

@@ -16,7 +16,7 @@ export function PlaceImageForm() {
     isLoadingPlaces,
     placeId,
     handlePlaceChange,
-    selectedFile,
+    selectedFiles,
     handleFileChange,
     selectedPlace,
     placeDetail,
@@ -24,6 +24,10 @@ export function PlaceImageForm() {
     isPlacesError,
     isPlaceDetailError,
     isValid,
+    isPending,
+    isSuccess,
+    isError,
+    error,
     handleSubmit,
     handleReset,
   } = usePlaceImageForm();
@@ -46,6 +50,7 @@ export function PlaceImageForm() {
           value={selectedChip ?? ''}
           onChange={(value) => handleChipChange(value as ChipCategory | '')}
           placeholder="카테고리를 선택하세요"
+          disabled={isPending}
         />
 
         {/* 장소 선택 */}
@@ -63,7 +68,7 @@ export function PlaceImageForm() {
                 ? '장소를 선택하세요'
                 : '카테고리를 먼저 선택하세요'
           }
-          disabled={!selectedChip || isLoadingPlaces}
+          disabled={isPending || !selectedChip || isLoadingPlaces}
         />
 
         {/* 선택된 장소 정보 */}
@@ -133,39 +138,58 @@ export function PlaceImageForm() {
           </div>
         )}
 
-        {/* 이미지 파일 선택 */}
+        {/* 이미지 파일 선택 (여러 개) */}
         <FileInput
-          id="image"
+          id="images"
           label="변경할 이미지"
           required
+          multiple
           accept="image/*"
           onChange={handleFileChange}
-          disabled={!placeId}
-          helperText="JPG, PNG, GIF 형식의 이미지 파일을 선택해주세요"
+          disabled={isPending || !placeId}
+          helperText="JPG, PNG, GIF 형식의 이미지 파일을 여러 개 선택할 수 있습니다"
         />
 
-        {/* 선택된 파일 미리보기 */}
-        {selectedFile && (
+        {/* 선택된 파일들 미리보기 */}
+        {selectedFiles.length > 0 && (
           <div className="rounded-lg bg-gray-50 p-4">
-            <h4 className="mb-2 text-sm font-medium text-gray-700">
-              선택된 파일
+            <h4 className="mb-3 text-sm font-medium text-gray-700">
+              선택된 파일 ({selectedFiles.length}개)
             </h4>
-            <div className="flex items-center gap-4">
-              <img
-                src={URL.createObjectURL(selectedFile)}
-                alt="선택된 이미지 미리보기"
-                className="h-24 w-24 rounded object-cover"
-              />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-900">
-                  {selectedFile.name}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {(selectedFile.size / 1024).toFixed(2)} KB
-                </p>
-              </div>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+              {selectedFiles.map((file, index) => (
+                <div key={index} className="relative">
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt={`선택된 이미지 ${index + 1}`}
+                    className="h-24 w-full rounded object-cover"
+                  />
+                  <div className="mt-1">
+                    <p className="truncate text-xs font-medium text-gray-900">
+                      {file.name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {(file.size / 1024).toFixed(2)} KB
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
+        )}
+
+        {/* 결과 메시지 */}
+        {isSuccess && (
+          <Alert variant="success">
+            장소 이미지가 성공적으로 수정되었습니다.
+          </Alert>
+        )}
+
+        {isError && (
+          <Alert variant="error">
+            오류가 발생했습니다:{' '}
+            {error instanceof Error ? error.message : '알 수 없는 오류'}
+          </Alert>
         )}
 
         {/* 에러 메시지 */}
@@ -177,11 +201,21 @@ export function PlaceImageForm() {
 
         {/* 버튼 */}
         <div className="flex items-center gap-3 pt-2">
-          <Button type="submit" variant="primary" disabled={!isValid}>
-            수정하기
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={!isValid}
+            isLoading={isPending}
+          >
+            {isPending ? '수정 중...' : '수정하기'}
           </Button>
 
-          <Button type="button" variant="secondary" onClick={handleReset}>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={handleReset}
+            disabled={isPending}
+          >
             초기화
           </Button>
         </div>

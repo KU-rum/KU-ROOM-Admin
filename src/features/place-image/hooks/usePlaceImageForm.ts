@@ -4,12 +4,13 @@ import {
   type ChipCategory,
   useGetPlaceById,
   useGetPlaces,
+  useUpdatePlaceImages,
 } from '@/entities/place';
 
 export function usePlaceImageForm() {
   const [selectedChip, setSelectedChip] = useState<ChipCategory | null>(null);
   const [placeId, setPlaceId] = useState('');
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   // 칩 선택 시 장소 목록 조회
   const {
@@ -29,21 +30,28 @@ export function usePlaceImageForm() {
 
   const placeDetail = placeDetailData?.data;
 
-  const isValid = placeId !== '' && selectedFile !== null;
+  // 장소 이미지 수정 Mutation
+  const { mutate, isPending, isSuccess, isError, error, reset } =
+    useUpdatePlaceImages();
+
+  const isValid = placeId !== '' && selectedFiles.length > 0;
 
   const handleChipChange = (chip: ChipCategory | '') => {
     setSelectedChip(chip === '' ? null : chip);
     setPlaceId('');
+    reset();
   };
 
   const handlePlaceChange = (id: string) => {
     setPlaceId(id);
+    reset();
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      // FileList를 File[] 배열로 변환
+      setSelectedFiles(Array.from(files));
     }
   };
 
@@ -52,14 +60,14 @@ export function usePlaceImageForm() {
 
     if (!isValid) return;
 
-    // TODO: API 연동
-    console.log('Submit:', { placeId, file: selectedFile });
+    mutate({ placeId, images: selectedFiles });
   };
 
   const handleReset = () => {
     setSelectedChip(null);
     setPlaceId('');
-    setSelectedFile(null);
+    setSelectedFiles([]);
+    reset();
   };
 
   // 선택된 장소 정보
@@ -78,7 +86,7 @@ export function usePlaceImageForm() {
     // Form state
     placeId,
     handlePlaceChange,
-    selectedFile,
+    selectedFiles,
     handleFileChange,
 
     // Selected place info
@@ -91,6 +99,12 @@ export function usePlaceImageForm() {
 
     // Validation
     isValid,
+
+    // Mutation state
+    isPending,
+    isSuccess,
+    isError,
+    error,
 
     // Actions
     handleSubmit,

@@ -74,3 +74,9 @@ export interface UpdatePlaceContentRequest {
 export interface UpdatePlaceContentBody {
   content: string;
 }
+
+// 장소 이미지 수정 요청
+export interface UpdatePlaceImagesRequest {
+  placeId: string;
+  images: File[];
+}
