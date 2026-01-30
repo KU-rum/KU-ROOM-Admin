@@ -3,7 +3,7 @@ export function HomePage() {
     <div className="animate-fade-in">
       <h2 className="text-3xl font-bold text-gray-900">관리자 대시보드</h2>
       <p className="mt-2 text-gray-600">
-        KU-ROOM 관리자 페이지에 오신 것을 환영합니다.
+        KUROOM 관리자 페이지에 오신 것을 환영합니다.
       </p>
 
       {/* Quick Stats */}
@@ -33,7 +33,9 @@ export function HomePage() {
               </svg>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">장소 내용 수정</p>
+              <p className="text-sm font-medium text-gray-500">
+                장소 내용 수정
+              </p>
               <p className="mt-1 text-lg font-semibold text-gray-900">
                 장소 정보 관리
               </p>
@@ -60,7 +62,9 @@ export function HomePage() {
               </svg>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">장소 이미지 수정</p>
+              <p className="text-sm font-medium text-gray-500">
+                장소 이미지 수정
+              </p>
               <p className="mt-1 text-lg font-semibold text-gray-900">
                 이미지 관리
               </p>
