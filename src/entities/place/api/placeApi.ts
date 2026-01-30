@@ -13,7 +13,13 @@ export async function updatePlaceContent({
   const body: UpdatePlaceContentBody = { content };
   const response = await apiClient.patch<ApiResponse>(
     `/places/${placeId}/content`,
-    body
+    body,
   );
+
+  // code가 1200이면 해당 장소가 없음
+  if (response.data.code === 1200) {
+    throw new Error(response.data.message);
+  }
+
   return response.data;
 }
