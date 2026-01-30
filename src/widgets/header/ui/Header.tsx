@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import logo from '@/assets/logo.svg';
 import { cn } from '@/shared/lib/utils';
@@ -17,13 +17,13 @@ const navItems: NavItem[] = [
 ];
 
 export function Header() {
-  const [activeItem, setActiveItem] = useState('/place-content');
+  const location = useLocation();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-primary-100 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3">
           <img
             src={logo}
             alt="KUROOM Logo"
@@ -35,27 +35,27 @@ export function Header() {
             </h1>
             <span className="text-xs font-medium text-primary-600">Admin</span>
           </div>
-        </div>
+        </Link>
 
         {/* Navigation */}
         <nav className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => (
               <li key={item.href}>
-                <button
-                  onClick={() => setActiveItem(item.href)}
+                <Link
+                  to={item.href}
                   className={cn(
                     'relative px-4 py-2 text-sm font-medium transition-colors duration-200',
-                    activeItem === item.href
+                    location.pathname === item.href
                       ? 'text-primary-600'
                       : 'text-gray-600 hover:text-primary-600',
                   )}
                 >
                   {item.label}
-                  {activeItem === item.href && (
+                  {location.pathname === item.href && (
                     <span className="absolute bottom-0 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full bg-primary-500 transition-all duration-200" />
                   )}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>
