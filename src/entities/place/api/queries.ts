@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import type { ChipCategory, UpdatePlaceContentRequest } from '../model/types';
-import { getPlaces, updatePlaceContent } from './placeApi';
+import { getPlaceById, getPlaces, updatePlaceContent } from './placeApi';
 
 // 지도 칩 정보 조회 (장소 목록)
 export function useGetPlaces(chip: ChipCategory | null) {
@@ -9,6 +9,15 @@ export function useGetPlaces(chip: ChipCategory | null) {
     queryKey: ['places', chip],
     queryFn: () => getPlaces({ chip: chip! }),
     enabled: !!chip,
+  });
+}
+
+// 장소 정보 조회
+export function useGetPlaceById(placeId: string | null) {
+  return useQuery({
+    queryKey: ['place', placeId],
+    queryFn: () => getPlaceById(placeId!),
+    enabled: !!placeId,
   });
 }
 

@@ -3,6 +3,7 @@ import { apiClient, type ApiResponse } from '@/shared/api';
 import type {
   GetPlacesRequest,
   Place,
+  PlaceDetail,
   UpdatePlaceContentBody,
   UpdatePlaceContentRequest,
 } from '../model/types';
@@ -14,6 +15,16 @@ export async function getPlaces({
   const response = await apiClient.get<ApiResponse<Place[]>>('/places', {
     params: { chip },
   });
+  return response.data;
+}
+
+// 장소 정보 조회
+export async function getPlaceById(
+  placeId: string,
+): Promise<ApiResponse<PlaceDetail>> {
+  const response = await apiClient.get<ApiResponse<PlaceDetail>>(
+    `/places/${placeId}`,
+  );
   return response.data;
 }
 
