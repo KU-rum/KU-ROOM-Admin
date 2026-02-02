@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type {
   ChipCategory,
@@ -26,7 +26,7 @@ export function useGetPlaces(chip: ChipCategory | null) {
 // 장소 정보 조회
 export function useGetPlaceById(placeId: string | null) {
   return useQuery({
-    queryKey: ['place', placeId],
+    queryKey: ['places', placeId],
     queryFn: () => getPlaceById(placeId!),
     enabled: !!placeId,
   });
@@ -41,14 +41,27 @@ export function useUpdatePlaceContent() {
 
 // 장소 이미지 수정 Mutation
 export function useUpdatePlaceImages() {
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: (data: UpdatePlaceImagesRequest) => updatePlaceImages(data),
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ['places'],
+      });
+    },
   });
 }
 
 // 장소 부가 이름 수정 Mutation
 export function useUpdatePlaceSubname() {
+  const qc = useQueryClient();
+
   return useMutation({
     mutationFn: (data: UpdatePlaceSubnameRequest) => updatePlaceSubname(data),
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ['places'],
+      });
+    },
   });
 }

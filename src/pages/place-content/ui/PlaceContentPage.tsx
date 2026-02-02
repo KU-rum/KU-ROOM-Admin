@@ -5,7 +5,7 @@ export function PlaceContentPage() {
   return (
     <div className="animate-fade-in">
       <PageHeader
-        title="장소 내용 수정"
+        title="장소 정보 수정"
         description="장소를 선택하고 변경할 내용을 작성해주세요."
       />
       <PlaceContentForm />
