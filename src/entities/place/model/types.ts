@@ -80,3 +80,14 @@ export interface UpdatePlaceImagesRequest {
   placeId: string;
   images: File[];
 }
+
+// 장소 부가 이름 수정 요청
+export interface UpdatePlaceSubnameRequest {
+  placeId: string;
+  subName: string;
+}
+
+// 장소 부가 이름 수정 요청 바디
+export interface UpdatePlaceSubnameBody {
+  subName: string;
+}

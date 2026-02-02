@@ -7,6 +7,8 @@ import type {
   UpdatePlaceContentBody,
   UpdatePlaceContentRequest,
   UpdatePlaceImagesRequest,
+  UpdatePlaceSubnameBody,
+  UpdatePlaceSubnameRequest,
 } from '../model/types';
 
 // 지도 칩 정보 조회 (장소 목록)
@@ -69,6 +71,24 @@ export async function updatePlaceImages({
       },
     },
   );
+
+  return response.data;
+}
+
+// 장소 부가 이름 수정
+export async function updatePlaceSubname({
+  placeId,
+  subName,
+}: UpdatePlaceSubnameRequest): Promise<ApiResponse> {
+  const body: UpdatePlaceSubnameBody = { subName };
+  const response = await apiClient.patch<ApiResponse>(
+    `/places/${placeId}/sub-name`,
+    body,
+  );
+
+  if (response.data.code === 1200) {
+    throw new Error(response.data.message);
+  }
 
   return response.data;
 }

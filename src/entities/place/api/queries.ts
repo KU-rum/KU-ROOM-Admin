@@ -4,12 +4,14 @@ import type {
   ChipCategory,
   UpdatePlaceContentRequest,
   UpdatePlaceImagesRequest,
+  UpdatePlaceSubnameRequest,
 } from '../model/types';
 import {
   getPlaceById,
   getPlaces,
   updatePlaceContent,
   updatePlaceImages,
+  updatePlaceSubname,
 } from './placeApi';
 
 // 지도 칩 정보 조회 (장소 목록)
@@ -41,5 +43,12 @@ export function useUpdatePlaceContent() {
 export function useUpdatePlaceImages() {
   return useMutation({
     mutationFn: (data: UpdatePlaceImagesRequest) => updatePlaceImages(data),
+  });
+}
+
+// 장소 부가 이름 수정 Mutation
+export function useUpdatePlaceSubname() {
+  return useMutation({
+    mutationFn: (data: UpdatePlaceSubnameRequest) => updatePlaceSubname(data),
   });
 }

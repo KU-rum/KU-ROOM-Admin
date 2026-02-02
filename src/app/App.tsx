@@ -1,8 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { HomePage } from '@/pages/home';
+import { MapPage } from '@/pages/map';
 import { PlaceContentPage } from '@/pages/place-content';
 import { PlaceImagePage } from '@/pages/place-image';
+import { PlaceSubnamePage } from '@/pages/place-subname';
 import { Header } from '@/widgets/header';
 
 export function App() {
@@ -16,6 +18,8 @@ export function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/place-content" element={<PlaceContentPage />} />
             <Route path="/place-image" element={<PlaceImagePage />} />
+            <Route path="/place-subname" element={<PlaceSubnamePage />} />
+            <Route path="/map" element={<MapPage />} />
           </Routes>
         </main>
       </div>
