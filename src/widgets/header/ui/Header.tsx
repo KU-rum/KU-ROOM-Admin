@@ -11,7 +11,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: '장소 내용 수정', href: '/place-content' },
   { label: '장소 이미지 수정', href: '/place-image' },
-  { label: '장소 부가 이름 수정', href: '/place-alias' },
+  { label: '장소 부가 이름 수정', href: '/place-subname' },
   { label: '정보 조회', href: '/info' },
   { label: '지도 칩 정보 조회', href: '/map-chip' },
 ];
