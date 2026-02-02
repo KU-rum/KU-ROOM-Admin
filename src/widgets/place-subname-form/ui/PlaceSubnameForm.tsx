@@ -1,6 +1,5 @@
-import { useState } from 'react';
-
-import { CHIP_LABELS, type ChipCategory, useGetPlaces } from '@/entities/place';
+import { CHIP_LABELS, type ChipCategory } from '@/entities/place';
+import { usePlaceSubnameForm } from '@/features/place-subname';
 import { Alert, Button, Card, Input, Select } from '@/shared/ui';
 
 const chipOptions = Object.entries(CHIP_LABELS).map(([value, label]) => ({
@@ -9,55 +8,31 @@ const chipOptions = Object.entries(CHIP_LABELS).map(([value, label]) => ({
 }));
 
 export function PlaceSubnameForm() {
-  const [selectedChip, setSelectedChip] = useState<ChipCategory | null>(null);
-  const [placeId, setPlaceId] = useState('');
-  const [subName, setSubName] = useState('');
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const isPending = false;
-
-  const { data: placesData, isLoading: isLoadingPlaces } =
-    useGetPlaces(selectedChip);
-
-  const places = placesData?.data ?? [];
+  const {
+    selectedChip,
+    handleChipChange,
+    places,
+    isLoadingPlaces,
+    placeId,
+    handlePlaceChange,
+    subName,
+    setSubName,
+    selectedPlace,
+    placeDetail,
+    isLoadingPlaceDetail,
+    isValid,
+    isPending,
+    isSuccess,
+    isError,
+    error,
+    handleSubmit,
+    handleReset,
+  } = usePlaceSubnameForm();
 
   const placeOptions = places.map((place) => ({
     value: place.placeId.toString(),
     label: `${place.name}${place.subName ? ` (${place.subName})` : ''}`,
   }));
-
-  const selectedPlace = places.find((p) => p.placeId.toString() === placeId);
-
-  const isValid = placeId !== '' && subName.trim() !== '';
-
-  const handleChipChange = (chip: ChipCategory | '') => {
-    setSelectedChip(chip === '' ? null : chip);
-    setPlaceId('');
-    setIsSuccess(false);
-    setIsError(false);
-  };
-
-  const handlePlaceChange = (id: string) => {
-    setPlaceId(id);
-    setIsSuccess(false);
-    setIsError(false);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!isValid) return;
-
-    // TODO: API 연동 예정
-    console.log('Submit:', { placeId, subName });
-  };
-
-  const handleReset = () => {
-    setSelectedChip(null);
-    setPlaceId('');
-    setSubName('');
-    setIsSuccess(false);
-    setIsError(false);
-  };
 
   return (
     <Card>
@@ -93,25 +68,63 @@ export function PlaceSubnameForm() {
         />
 
         {/* 선택된 장소 정보 */}
-        {placeId && selectedPlace && (
+        {placeId && (
           <div className="rounded-lg bg-primary-50 p-4">
-            <h4 className="text-sm font-medium text-primary-800">
-              선택된 장소 정보
-            </h4>
-            <dl className="mt-2 space-y-2 text-sm text-primary-700">
-              <div className="flex gap-2">
-                <dt className="font-medium">ID:</dt>
-                <dd>{selectedPlace.placeId}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="font-medium">이름:</dt>
-                <dd>{selectedPlace.name}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="font-medium">현재 부가 이름:</dt>
-                <dd>{selectedPlace.subName || '(없음)'}</dd>
-              </div>
-            </dl>
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-medium text-primary-800">
+                선택된 장소 정보
+              </h4>
+              {isLoadingPlaceDetail && (
+                <span className="text-xs text-primary-600">불러오는 중...</span>
+              )}
+            </div>
+
+            {placeDetail ? (
+              <dl className="mt-2 space-y-2 text-sm text-primary-700">
+                <div className="flex gap-2">
+                  <dt className="font-medium">ID:</dt>
+                  <dd>{placeDetail.placeId}</dd>
+                </div>
+                <div className="flex gap-2">
+                  <dt className="font-medium">이름:</dt>
+                  <dd>{placeDetail.name}</dd>
+                </div>
+                <div className="flex gap-2">
+                  <dt className="font-medium">현재 부가 이름:</dt>
+                  <dd>{placeDetail.subName || '(없음)'}</dd>
+                </div>
+                {placeDetail.content && (
+                  <div className="flex gap-2">
+                    <dt className="font-medium">내용:</dt>
+                    <dd>{placeDetail.content}</dd>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <dt className="font-medium">위치:</dt>
+                  <dd>
+                    위도 {placeDetail.latitude.toFixed(6)}, 경도{' '}
+                    {placeDetail.longitude.toFixed(6)}
+                  </dd>
+                </div>
+              </dl>
+            ) : (
+              selectedPlace && (
+                <dl className="mt-2 space-y-1 text-sm text-primary-700">
+                  <div className="flex gap-2">
+                    <dt className="font-medium">ID:</dt>
+                    <dd>{selectedPlace.placeId}</dd>
+                  </div>
+                  <div className="flex gap-2">
+                    <dt className="font-medium">이름:</dt>
+                    <dd>{selectedPlace.name}</dd>
+                  </div>
+                  <div className="flex gap-2">
+                    <dt className="font-medium">현재 부가 이름:</dt>
+                    <dd>{selectedPlace.subName || '(없음)'}</dd>
+                  </div>
+                </dl>
+              )
+            )}
           </div>
         )}
 
@@ -134,7 +147,10 @@ export function PlaceSubnameForm() {
         )}
 
         {isError && (
-          <Alert variant="error">오류가 발생했습니다. 다시 시도해주세요.</Alert>
+          <Alert variant="error">
+            오류가 발생했습니다:{' '}
+            {error instanceof Error ? error.message : '알 수 없는 오류'}
+          </Alert>
         )}
 
         {/* 버튼 */}
