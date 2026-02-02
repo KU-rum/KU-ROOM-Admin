@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import type { ChipCategory } from '@/entities/place';
+import { type ChipCategory, useCreatePlace } from '@/entities/place';
 import type { LatLng } from '@/shared/types';
 
 export function useAddLocationForm() {
@@ -9,6 +9,8 @@ export function useAddLocationForm() {
   const [subName, setSubName] = useState('');
   const [content, setContent] = useState('');
   const [location, setLocation] = useState<LatLng | null>(null);
+
+  const { mutate: createPlace } = useCreatePlace();
 
   const handleChipChange = (chip: ChipCategory | '') => {
     setSelectedChip(chip === '' ? null : chip);
@@ -43,17 +45,30 @@ export function useAddLocationForm() {
     content.trim() !== '' &&
     location !== null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!isValid) return;
-  };
-
-  const handleReset = () => {
+  const reset = () => {
     setSelectedChip(null);
     setTitle('');
     setSubName('');
     setContent('');
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!isValid) return;
+    createPlace({
+      categoryChip: selectedChip,
+      name: title,
+      subName: subName,
+      content: content,
+      latitude: location.lat,
+      longitude: location.lng,
+    });
+    reset();
+  };
+
+  const handleReset = () => {
+    reset();
   };
 
   return {

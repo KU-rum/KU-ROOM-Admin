@@ -2,10 +2,12 @@ import { CHIP_LABELS, type ChipCategory } from '@/entities/place';
 import { useAddLocationForm } from '@/features/add-location';
 import { Button, Card, Input, Map, Select, Textarea } from '@/shared/ui';
 
-const chipOptions = Object.entries(CHIP_LABELS).map(([value, label]) => ({
-  value,
-  label,
-}));
+const chipOptions = Object.entries(CHIP_LABELS)
+  .filter((item) => item[0] !== 'BUILDING')
+  .map(([value, label]) => ({
+    value,
+    label,
+  }));
 
 export function AddLocationForm() {
   const {

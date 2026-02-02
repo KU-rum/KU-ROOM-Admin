@@ -56,7 +56,7 @@ export function Map({ handleChangeCenter }: MapProps) {
         ref={mapDivRef}
         className="h-[250px] w-full rounded-lg border border-gray-200"
       />
-      <PinIcon className="absolute bottom-1/2 left-1/2 translate-x-[-50%]" />
+      <PinIcon className="absolute bottom-1/2 left-1/2 w-8 translate-x-[-50%]" />
     </div>
   );
 }

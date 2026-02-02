@@ -3,30 +3,28 @@ export type ChipCategory =
   | 'BUILDING'
   | 'COLLEGE'
   | 'K_CUBE'
-  | 'CAFE'
-  | 'CONV'
-  | 'FOOD'
-  | 'LIBRARY'
-  | 'PRINT'
-  | 'READING_ROOM'
-  | 'REST'
-  | 'HEALTH'
-  | 'BANK';
+  | 'K_HUB'
+  | 'CONVENIENCE_STORE'
+  | 'CAFE_RESTIO'
+  | 'CAFE_1847'
+  | 'STUDENT_CAFETERIA'
+  | 'DORMITORY'
+  | 'BANK'
+  | 'POST_OFFICE';
 
 // 칩 카테고리 라벨
 export const CHIP_LABELS: Record<ChipCategory, string> = {
   BUILDING: '건물',
-  COLLEGE: '단과대학',
-  K_CUBE: 'K-CUBE',
-  CAFE: '카페',
-  CONV: '편의점',
-  FOOD: '식당',
-  LIBRARY: '도서관',
-  PRINT: '프린트',
-  READING_ROOM: '열람실',
-  REST: '휴게실',
-  HEALTH: '건강',
+  COLLEGE: '단과대',
+  K_CUBE: 'K-Cube',
+  K_HUB: 'K-Hub',
+  CONVENIENCE_STORE: '편의점',
+  CAFE_RESTIO: '레스티오',
+  CAFE_1847: '1847',
+  STUDENT_CAFETERIA: '학생식당',
+  DORMITORY: '기숙사',
   BANK: '은행',
+  POST_OFFICE: '우체국',
 };
 
 // 친구 정보
@@ -90,4 +88,13 @@ export interface UpdatePlaceSubnameRequest {
 // 장소 부가 이름 수정 요청 바디
 export interface UpdatePlaceSubnameBody {
   subName: string;
+}
+
+export interface CreatePlaceRequest {
+  categoryChip: ChipCategory;
+  name: string;
+  subName: string;
+  content: string;
+  latitude: number;
+  longitude: number;
 }

@@ -2,11 +2,13 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type {
   ChipCategory,
+  CreatePlaceRequest,
   UpdatePlaceContentRequest,
   UpdatePlaceImagesRequest,
   UpdatePlaceSubnameRequest,
 } from '../model/types';
 import {
+  createPlace,
   getPlaceById,
   getPlaces,
   updatePlaceContent,
@@ -62,6 +64,24 @@ export function useUpdatePlaceSubname() {
       qc.invalidateQueries({
         queryKey: ['places'],
       });
+    },
+  });
+}
+
+// 장소 추가 mutation
+export function useCreatePlace() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: CreatePlaceRequest) => createPlace(data),
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ['places'],
+      });
+      alert('장소 추가 성공');
+    },
+    onError: () => {
+      alert('장소 추가 실패');
     },
   });
 }

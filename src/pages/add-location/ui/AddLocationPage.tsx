@@ -1,5 +1,5 @@
 import { PageHeader } from '@/shared/ui';
-import { AddLocationForm } from '@/widgets/add-location-form/ui/AddLocationForm';
+import { AddLocationForm } from '@/widgets/add-location-form';
 
 export function AddLocationPage() {
   return (
