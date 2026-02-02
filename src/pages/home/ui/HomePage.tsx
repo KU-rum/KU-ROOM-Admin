@@ -81,9 +81,11 @@ export function HomePage() {
               <MapIcon className="h-6 w-6" />
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">지도</p>
+              <p className="text-sm font-medium text-gray-500">
+                위치 정보 수정
+              </p>
               <p className="mt-1 text-lg font-semibold text-gray-900">
-                지도 보기
+                위치 정보 관리
               </p>
             </div>
           </div>
