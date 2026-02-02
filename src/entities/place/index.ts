@@ -1,9 +1,15 @@
 // API
-export { getPlaceById, getPlaces, updatePlaceContent } from './api/placeApi';
+export {
+  getPlaceById,
+  getPlaces,
+  updatePlaceContent,
+  updatePlaceImages,
+} from './api/placeApi';
 export {
   useGetPlaceById,
   useGetPlaces,
   useUpdatePlaceContent,
+  useUpdatePlaceImages,
 } from './api/queries';
 
 // Types
@@ -15,6 +21,7 @@ export type {
   PlaceDetail,
   UpdatePlaceContentBody,
   UpdatePlaceContentRequest,
+  UpdatePlaceImagesRequest,
 } from './model/types';
 
 // Constants

@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { HomePage } from '@/pages/home';
 import { PlaceContentPage } from '@/pages/place-content';
+import { PlaceImagePage } from '@/pages/place-image';
 import { Header } from '@/widgets/header';
 
 export function App() {
@@ -14,6 +15,7 @@ export function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/place-content" element={<PlaceContentPage />} />
+            <Route path="/place-image" element={<PlaceImagePage />} />
           </Routes>
         </main>
       </div>

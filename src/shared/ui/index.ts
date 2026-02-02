@@ -1,6 +1,7 @@
 export { Alert } from './Alert';
 export { Button } from './Button';
 export { Card } from './Card';
+export { FileInput } from './FileInput';
 export { Input } from './Input';
 export { PageHeader } from './PageHeader';
 export { Select } from './Select';

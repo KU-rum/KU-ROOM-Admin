@@ -1,7 +1,16 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import type { ChipCategory, UpdatePlaceContentRequest } from '../model/types';
-import { getPlaceById, getPlaces, updatePlaceContent } from './placeApi';
+import type {
+  ChipCategory,
+  UpdatePlaceContentRequest,
+  UpdatePlaceImagesRequest,
+} from '../model/types';
+import {
+  getPlaceById,
+  getPlaces,
+  updatePlaceContent,
+  updatePlaceImages,
+} from './placeApi';
 
 // 지도 칩 정보 조회 (장소 목록)
 export function useGetPlaces(chip: ChipCategory | null) {
@@ -25,5 +34,12 @@ export function useGetPlaceById(placeId: string | null) {
 export function useUpdatePlaceContent() {
   return useMutation({
     mutationFn: (data: UpdatePlaceContentRequest) => updatePlaceContent(data),
+  });
+}
+
+// 장소 이미지 수정 Mutation
+export function useUpdatePlaceImages() {
+  return useMutation({
+    mutationFn: (data: UpdatePlaceImagesRequest) => updatePlaceImages(data),
   });
 }
