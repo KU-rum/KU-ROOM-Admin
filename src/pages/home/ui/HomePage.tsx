@@ -80,7 +80,10 @@ export function HomePage() {
           </div>
         </Link>
 
-        <div className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/10">
+        <Link
+          to="/place-subname"
+          className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/10"
+        >
           <div className="flex items-center gap-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-50 text-primary-600 transition-colors duration-200 group-hover:bg-primary-100">
               <svg
@@ -94,18 +97,20 @@ export function HomePage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                  d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"
                 />
               </svg>
             </div>
             <div>
-              <p className="text-sm font-medium text-gray-500">지도 칩 정보</p>
+              <p className="text-sm font-medium text-gray-500">
+                장소 부가 이름 수정
+              </p>
               <p className="mt-1 text-lg font-semibold text-gray-900">
-                칩 데이터 조회
+                부가 이름 관리
               </p>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );
