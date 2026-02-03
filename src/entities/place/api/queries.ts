@@ -36,8 +36,14 @@ export function useGetPlaceById(placeId: string | null) {
 
 // 장소 내용 수정 Mutation
 export function useUpdatePlaceContent() {
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: (data: UpdatePlaceContentRequest) => updatePlaceContent(data),
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ['places'],
+      });
+    },
   });
 }
 

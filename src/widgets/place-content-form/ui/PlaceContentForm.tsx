@@ -99,7 +99,9 @@ export function PlaceContentForm() {
                 )}
                 <div className="flex gap-2">
                   <dt className="font-medium">현재 내용:</dt>
-                  <dd>{placeDetail.content || '(없음)'}</dd>
+                  <dd className="whitespace-pre-line">
+                    {placeDetail.content || '(없음)'}
+                  </dd>
                 </div>
                 <div className="flex gap-2">
                   <dt className="font-medium">위치:</dt>
@@ -165,7 +167,9 @@ export function PlaceContentForm() {
                   )}
                   <div className="flex gap-2">
                     <dt className="font-medium">현재 내용:</dt>
-                    <dd>{selectedPlace.content ?? '(없음)'}</dd>
+                    <dd className="whitespace-pre-line">
+                      {selectedPlace.content ?? '(없음)'}
+                    </dd>
                   </div>
                 </dl>
               )
