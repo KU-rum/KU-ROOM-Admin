@@ -128,7 +128,7 @@ export function PlaceImageForm() {
           </div>
         )}
 
-        {placeImagesData && (
+        {placeDetail && (
           <div>
             <dt className="mb-3 text-sm font-medium text-gray-700">
               현재 이미지:
@@ -136,7 +136,7 @@ export function PlaceImageForm() {
             {isPendingPlaceImage && (
               <span className="text-sm text-primary-600">불러오는 중...</span>
             )}
-            {placeImagesData.length > 0 ? (
+            {placeImagesData && placeImagesData.length > 0 ? (
               <dd className="flex flex-wrap gap-3">
                 {placeImagesData.map((image) => (
                   <div key={image.placeImageId} className="relative w-full">
@@ -145,12 +145,16 @@ export function PlaceImageForm() {
                       alt={`장소 이미지 ${image.placeImageId}`}
                       className="w-full rounded object-cover"
                     />
-                    <IcCloseBtn
+                    <button
+                      type="button"
+                      aria-label="이미지 삭제"
                       className="absolute right-2 top-2 h-8 w-8"
                       onClick={() =>
                         handleDeleteImage(placeId, image.placeImageId)
                       }
-                    />
+                    >
+                      <IcCloseBtn className="h-8 w-8" />
+                    </button>
                   </div>
                 ))}
               </dd>
