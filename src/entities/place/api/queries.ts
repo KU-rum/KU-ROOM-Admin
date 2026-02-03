@@ -81,9 +81,9 @@ export function useDeletePlaceImage() {
 
   return useMutation({
     mutationFn: (data: DeletePlaceImageRequest) => deletePlaceImage(data),
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       qc.invalidateQueries({
-        queryKey: ['places'],
+        queryKey: ['places', 'images', variables.placeId],
       });
       alert('이미지 삭제 성공');
     },
