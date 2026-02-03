@@ -12,10 +12,10 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: '장소 내용 수정', href: '/place-content' },
-  { label: '장소 이미지 수정', href: '/place-image' },
-  { label: '장소 부가 이름 수정', href: '/place-subname' },
-  { label: '위치 정보 수정', href: '/map' },
+  { label: '장소 정보 관리', href: '/place-content' },
+  { label: '장소 이미지 관리', href: '/place-image' },
+  { label: '장소 부제목 관리', href: '/place-subname' },
+  { label: '위치 정보 추가', href: '/add-location' },
 ];
 
 export function Header() {

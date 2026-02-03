@@ -1,6 +1,7 @@
 import { apiClient, type ApiResponse } from '@/shared/api';
 
 import type {
+  CreatePlaceRequest,
   GetPlacesRequest,
   Place,
   PlaceDetail,
@@ -89,6 +90,27 @@ export async function updatePlaceSubname({
   if (response.data.code === 1200) {
     throw new Error(response.data.message);
   }
+
+  return response.data;
+}
+
+// 장소 추가
+export async function createPlace({
+  categoryChip,
+  name,
+  subName,
+  content,
+  latitude,
+  longitude,
+}: CreatePlaceRequest) {
+  const response = await apiClient.post<ApiResponse>('/places', {
+    categoryChip,
+    name,
+    subName,
+    content,
+    latitude,
+    longitude,
+  });
 
   return response.data;
 }

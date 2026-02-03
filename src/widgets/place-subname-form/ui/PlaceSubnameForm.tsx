@@ -96,7 +96,9 @@ export function PlaceSubnameForm() {
                 {placeDetail.content && (
                   <div className="flex gap-2">
                     <dt className="font-medium">내용:</dt>
-                    <dd>{placeDetail.content}</dd>
+                    <dd className="whitespace-pre-line">
+                      {placeDetail.content}
+                    </dd>
                   </div>
                 )}
                 <div className="flex gap-2">

@@ -1,5 +1,6 @@
 // API
 export {
+  createPlace,
   getPlaceById,
   getPlaces,
   updatePlaceContent,
@@ -7,6 +8,7 @@ export {
   updatePlaceSubname,
 } from './api/placeApi';
 export {
+  useCreatePlace,
   useGetPlaceById,
   useGetPlaces,
   useUpdatePlaceContent,
@@ -17,6 +19,7 @@ export {
 // Types
 export type {
   ChipCategory,
+  CreatePlaceRequest,
   Friend,
   GetPlacesRequest,
   Place,

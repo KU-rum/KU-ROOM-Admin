@@ -25,7 +25,7 @@ export function HomePage() {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">
-                장소 내용 수정
+                각 장소의 정보 부분 수정
               </p>
               <p className="mt-1 text-lg font-semibold text-gray-900">
                 장소 정보 관리
@@ -44,7 +44,7 @@ export function HomePage() {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">
-                장소 이미지 수정
+                각 장소 이미지 수정
               </p>
               <p className="mt-1 text-lg font-semibold text-gray-900">
                 이미지 관리
@@ -63,17 +63,17 @@ export function HomePage() {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">
-                장소 부가 이름 수정
+                각 장소 부제목 수정
               </p>
               <p className="mt-1 text-lg font-semibold text-gray-900">
-                부가 이름 관리
+                부제목 관리
               </p>
             </div>
           </div>
         </Link>
 
         <Link
-          to="/map"
+          to="/add-location"
           className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/10"
         >
           <div className="flex items-center gap-4">
@@ -82,7 +82,7 @@ export function HomePage() {
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">
-                위치 정보 수정
+                새로운 위치 정보 추가
               </p>
               <p className="mt-1 text-lg font-semibold text-gray-900">
                 위치 정보 관리
