@@ -1,13 +1,15 @@
 import { apiClient, type ApiResponse } from '@/shared/api';
 
 import type {
+  AddPlaceImagesRequest,
   CreatePlaceRequest,
+  DeletePlaceImageRequest,
   GetPlacesRequest,
   Place,
   PlaceDetail,
+  PlaceImage,
   UpdatePlaceContentBody,
   UpdatePlaceContentRequest,
-  UpdatePlaceImagesRequest,
   UpdatePlaceSubnameBody,
   UpdatePlaceSubnameRequest,
 } from '../model/types';
@@ -51,31 +53,6 @@ export async function updatePlaceContent({
   return response.data;
 }
 
-// 장소 이미지 수정
-export async function updatePlaceImages({
-  placeId,
-  images,
-}: UpdatePlaceImagesRequest): Promise<ApiResponse> {
-  const formData = new FormData();
-
-  // 여러 개의 이미지 파일 추가
-  images.forEach((image) => {
-    formData.append('images', image);
-  });
-
-  const response = await apiClient.put<ApiResponse>(
-    `/places/${placeId}/images`,
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    },
-  );
-
-  return response.data;
-}
-
 // 장소 부가 이름 수정
 export async function updatePlaceSubname({
   placeId,
@@ -111,6 +88,52 @@ export async function createPlace({
     latitude,
     longitude,
   });
+
+  return response.data;
+}
+
+// 장소 이미지 조회
+export async function getPlaceImages(placeId: string) {
+  const response = await apiClient.get<ApiResponse<PlaceImage[]>>(
+    `/places/${placeId}/images`,
+  );
+
+  return response.data.data;
+}
+
+// 장소 이미지 추가
+export async function addPlaceImages({
+  placeId,
+  images,
+}: AddPlaceImagesRequest): Promise<ApiResponse> {
+  const formData = new FormData();
+
+  // 여러 개의 이미지 파일 추가
+  images.forEach((image) => {
+    formData.append('images', image);
+  });
+
+  const response = await apiClient.patch<ApiResponse>(
+    `/places/${placeId}/images`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+
+  return response.data;
+}
+
+// 장소 이미지 삭제
+export async function deletePlaceImage({
+  placeId,
+  placeImageId,
+}: DeletePlaceImageRequest) {
+  const response = await apiClient.delete<ApiResponse>(
+    `/places/${placeId}/images/${placeImageId}`,
+  );
 
   return response.data;
 }

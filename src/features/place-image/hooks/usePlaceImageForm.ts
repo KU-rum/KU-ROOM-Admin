@@ -2,9 +2,11 @@ import { useState } from 'react';
 
 import {
   type ChipCategory,
+  useAddPlaceImages,
+  useDeletePlaceImage,
   useGetPlaceById,
+  useGetPlaceImages,
   useGetPlaces,
-  useUpdatePlaceImages,
 } from '@/entities/place';
 
 export function usePlaceImageForm() {
@@ -30,9 +32,19 @@ export function usePlaceImageForm() {
 
   const placeDetail = placeDetailData?.data;
 
+  // 장소 이미지 조회
+  const {
+    data: placeImagesData,
+    isPending: isPendingPlaceImage,
+    isError: isPlaceImageError,
+  } = useGetPlaceImages(placeId || null);
+
   // 장소 이미지 수정 Mutation
   const { mutate, isPending, isSuccess, isError, error, reset } =
-    useUpdatePlaceImages();
+    useAddPlaceImages();
+
+  // 장소 이미지 삭제
+  const { mutate: deleteImage } = useDeletePlaceImage();
 
   const isValid = placeId !== '' && selectedFiles.length > 0;
 
@@ -60,7 +72,14 @@ export function usePlaceImageForm() {
 
     if (!isValid) return;
 
-    mutate({ placeId, images: selectedFiles });
+    mutate(
+      { placeId, images: selectedFiles },
+      {
+        onSettled: () => {
+          setSelectedFiles([]);
+        },
+      },
+    );
   };
 
   const handleReset = () => {
@@ -68,6 +87,13 @@ export function usePlaceImageForm() {
     setPlaceId('');
     setSelectedFiles([]);
     reset();
+  };
+
+  const handleDeleteImage = (placeId: string, placeImageId: number) => {
+    const result = window.confirm('정말 삭제하시겠습니까?');
+    if (result) {
+      deleteImage({ placeId, placeImageId });
+    }
   };
 
   // 선택된 장소 정보
@@ -97,6 +123,10 @@ export function usePlaceImageForm() {
     isLoadingPlaceDetail,
     isPlaceDetailError,
 
+    placeImagesData,
+    isPendingPlaceImage,
+    isPlaceImageError,
+
     // Validation
     isValid,
 
@@ -109,5 +139,6 @@ export function usePlaceImageForm() {
     // Actions
     handleSubmit,
     handleReset,
+    handleDeleteImage,
   };
 }
