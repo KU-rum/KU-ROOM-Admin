@@ -10,7 +10,7 @@ export function useAddLocationForm() {
   const [content, setContent] = useState('');
   const [location, setLocation] = useState<LatLng | null>(null);
 
-  const { mutate: createPlace } = useCreatePlace();
+  const { mutate: createPlace, isPending } = useCreatePlace();
 
   const handleChipChange = (chip: ChipCategory | '') => {
     setSelectedChip(chip === '' ? null : chip);
@@ -85,5 +85,6 @@ export function useAddLocationForm() {
     handleSubmit,
     handleReset,
     isValid,
+    isPending,
   };
 }

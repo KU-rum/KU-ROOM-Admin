@@ -24,6 +24,7 @@ export function AddLocationForm() {
     handleSubmit,
     handleReset,
     isValid,
+    isPending,
   } = useAddLocationForm();
 
   return (
@@ -38,7 +39,7 @@ export function AddLocationForm() {
           value={selectedChip ?? ''}
           onChange={(value) => handleChipChange(value as ChipCategory | '')}
           placeholder="카테고리를 선택하세요"
-          //   disabled={isPending}
+          disabled={isPending}
         />
 
         {/* 제목 입력 */}
@@ -49,7 +50,7 @@ export function AddLocationForm() {
           value={title}
           onChange={handleChangeTitle}
           placeholder="제목을 입력하세요"
-          //   disabled={isPending || !placeId}
+          disabled={isPending}
         />
 
         {/* 부제목 입력 */}
@@ -60,7 +61,7 @@ export function AddLocationForm() {
           value={subName}
           onChange={handleChangeSubName}
           placeholder="부제목을 입력하세요"
-          //   disabled={isPending || !placeId}
+          disabled={isPending}
         />
 
         {/* 정보 입력 */}
@@ -72,7 +73,7 @@ export function AddLocationForm() {
           onChange={handleChangeContent}
           placeholder="내용을 입력하세요"
           rows={6}
-          //   disabled={isPending || !placeId}
+          disabled={isPending}
         />
 
         <div>
@@ -91,10 +92,9 @@ export function AddLocationForm() {
             type="submit"
             variant="primary"
             disabled={!isValid}
-            // isLoading={isPending}
+            isLoading={isPending}
           >
-            {/* {isPending ? '수정 중...' : '수정하기'} */}
-            추가하기
+            {isPending ? '추가 중...' : '추가하기'}
           </Button>
 
           <Button
