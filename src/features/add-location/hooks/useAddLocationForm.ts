@@ -16,21 +16,15 @@ export function useAddLocationForm() {
     setSelectedChip(chip === '' ? null : chip);
   };
 
-  const handleChangeTitle = (
-    e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
-  ) => {
+  const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const handleChangeSubName = (
-    e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
-  ) => {
+  const handleChangeSubName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubName(e.target.value);
   };
 
-  const handleChangeContent = (
-    e: React.ChangeEvent<HTMLTextAreaElement, HTMLTextAreaElement>,
-  ) => {
+  const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
@@ -56,15 +50,19 @@ export function useAddLocationForm() {
     e.preventDefault();
 
     if (!isValid) return;
-    createPlace({
-      categoryChip: selectedChip,
-      name: title,
-      subName: subName,
-      content: content,
-      latitude: location.lat,
-      longitude: location.lng,
-    });
-    reset();
+    createPlace(
+      {
+        categoryChip: selectedChip,
+        name: title,
+        subName: subName,
+        content: content,
+        latitude: location.lat,
+        longitude: location.lng,
+      },
+      {
+        onSuccess: () => reset(),
+      },
+    );
   };
 
   const handleReset = () => {
