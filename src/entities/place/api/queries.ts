@@ -1,18 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type {
+  AddPlaceImagesRequest,
   ChipCategory,
   CreatePlaceRequest,
+  DeletePlaceImageRequest,
   UpdatePlaceContentRequest,
-  UpdatePlaceImagesRequest,
   UpdatePlaceSubnameRequest,
 } from '../model/types';
 import {
+  addPlaceImages,
   createPlace,
+  deletePlaceImage,
   getPlaceById,
+  getPlaceImages,
   getPlaces,
   updatePlaceContent,
-  updatePlaceImages,
   updatePlaceSubname,
 } from './placeApi';
 
@@ -47,15 +50,45 @@ export function useUpdatePlaceContent() {
   });
 }
 
-// 장소 이미지 수정 Mutation
-export function useUpdatePlaceImages() {
+// 장소 이미지 조회
+export function useGetPlaceImages(placeId: string | null) {
+  return useQuery({
+    queryKey: ['places', 'images', placeId],
+    queryFn: () => getPlaceImages(placeId!),
+    enabled: !!placeId,
+  });
+}
+
+// 장소 이미지 추가 Mutation
+export function useAddPlaceImages() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (data: UpdatePlaceImagesRequest) => updatePlaceImages(data),
+    mutationFn: (data: AddPlaceImagesRequest) => addPlaceImages(data),
     onSuccess: () => {
       qc.invalidateQueries({
         queryKey: ['places'],
       });
+      alert('이미지 추가 성공');
+    },
+    onError: () => {
+      alert('이미지 추가 실패');
+    },
+  });
+}
+
+export function useDeletePlaceImage() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: DeletePlaceImageRequest) => deletePlaceImage(data),
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ['places'],
+      });
+      alert('이미지 삭제 성공');
+    },
+    onError: () => {
+      alert('이미지 삭제 실패');
     },
   });
 }

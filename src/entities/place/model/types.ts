@@ -57,6 +57,11 @@ export interface PlaceDetail {
   imageUrls: string[];
 }
 
+export interface PlaceImage {
+  placeImageId: number;
+  imageUrl: string;
+}
+
 // 장소 목록 조회 요청
 export interface GetPlacesRequest {
   chip: ChipCategory;
@@ -73,10 +78,16 @@ export interface UpdatePlaceContentBody {
   content: string;
 }
 
-// 장소 이미지 수정 요청
-export interface UpdatePlaceImagesRequest {
+// 장소 이미지 추가 요청
+export interface AddPlaceImagesRequest {
   placeId: string;
   images: File[];
+}
+
+// 장소 이미지 삭제 요청
+export interface DeletePlaceImageRequest {
+  placeId: string;
+  placeImageId: number;
 }
 
 // 장소 부가 이름 수정 요청

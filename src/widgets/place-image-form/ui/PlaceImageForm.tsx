@@ -1,3 +1,4 @@
+import IcCloseBtn from '@/assets/icons/close-btn.svg?react';
 import { CHIP_LABELS, type ChipCategory } from '@/entities/place';
 import { usePlaceImageForm } from '@/features/place-image';
 import { Alert, Button, Card, FileInput, Select } from '@/shared/ui';
@@ -14,6 +15,7 @@ export function PlaceImageForm() {
     handleChipChange,
     places,
     isLoadingPlaces,
+    isPlacesError,
     placeId,
     handlePlaceChange,
     selectedFiles,
@@ -21,8 +23,10 @@ export function PlaceImageForm() {
     selectedPlace,
     placeDetail,
     isLoadingPlaceDetail,
-    isPlacesError,
     isPlaceDetailError,
+    placeImagesData,
+    isPendingPlaceImage,
+    isPlaceImageError,
     isValid,
     isPending,
     isSuccess,
@@ -30,6 +34,7 @@ export function PlaceImageForm() {
     error,
     handleSubmit,
     handleReset,
+    handleDeleteImage,
   } = usePlaceImageForm();
 
   // 장소 옵션
@@ -99,21 +104,6 @@ export function PlaceImageForm() {
                     <dd>{placeDetail.subName}</dd>
                   </div>
                 )}
-                {placeDetail.imageUrls.length > 0 && (
-                  <div>
-                    <dt className="mb-1 font-medium">현재 이미지:</dt>
-                    <dd className="flex flex-wrap gap-2">
-                      {placeDetail.imageUrls.map((url, index) => (
-                        <img
-                          key={index}
-                          src={url}
-                          alt={`장소 이미지 ${index + 1}`}
-                          className="h-20 w-20 rounded object-cover"
-                        />
-                      ))}
-                    </dd>
-                  </div>
-                )}
               </dl>
             ) : (
               selectedPlace && (
@@ -134,6 +124,38 @@ export function PlaceImageForm() {
                   )}
                 </dl>
               )
+            )}
+          </div>
+        )}
+
+        {placeImagesData && (
+          <div>
+            <dt className="mb-3 text-sm font-medium text-gray-700">
+              현재 이미지:
+            </dt>
+            {isPendingPlaceImage && (
+              <span className="text-sm text-primary-600">불러오는 중...</span>
+            )}
+            {placeImagesData.length > 0 ? (
+              <dd className="flex flex-wrap gap-3">
+                {placeImagesData.map((image) => (
+                  <div key={image.placeImageId} className="relative w-full">
+                    <img
+                      src={image.imageUrl}
+                      alt={`장소 이미지 ${image.placeImageId}`}
+                      className="w-full rounded object-cover"
+                    />
+                    <IcCloseBtn
+                      className="absolute right-2 top-2 h-8 w-8"
+                      onClick={() =>
+                        handleDeleteImage(placeId, image.placeImageId)
+                      }
+                    />
+                  </div>
+                ))}
+              </dd>
+            ) : (
+              <span className="text-sm font-medium text-gray-700">없음</span>
             )}
           </div>
         )}
@@ -193,7 +215,7 @@ export function PlaceImageForm() {
         )}
 
         {/* 에러 메시지 */}
-        {(isPlacesError || isPlaceDetailError) && (
+        {(isPlacesError || isPlaceDetailError || isPlaceImageError) && (
           <Alert variant="error">
             데이터를 불러오는 중 오류가 발생했습니다.
           </Alert>
@@ -207,7 +229,7 @@ export function PlaceImageForm() {
             disabled={!isValid}
             isLoading={isPending}
           >
-            {isPending ? '수정 중...' : '수정하기'}
+            {isPending ? '추가 중...' : '추가하기'}
           </Button>
 
           <Button
