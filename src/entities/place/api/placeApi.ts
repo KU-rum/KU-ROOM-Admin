@@ -8,7 +8,6 @@ import type {
   Place,
   PlaceDetail,
   PlaceImage,
-  UpdateLocationRequest,
   UpdatePlaceContentBody,
   UpdatePlaceContentRequest,
   UpdatePlaceSubnameBody,
@@ -134,20 +133,6 @@ export async function deletePlaceImage({
 }: DeletePlaceImageRequest) {
   const response = await apiClient.delete<ApiResponse>(
     `/places/${placeId}/images/${placeImageId}`,
-  );
-
-  return response.data;
-}
-
-// 장소 위치 수정
-export async function updatePlaceLocation({
-  placeId,
-  latitude,
-  longitude,
-}: UpdateLocationRequest) {
-  const response = await apiClient.patch<ApiResponse>(
-    `/places/${placeId}/location`,
-    { latitude, longitude },
   );
 
   return response.data;

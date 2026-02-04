@@ -15,8 +15,7 @@ const navItems: NavItem[] = [
   { label: '장소 정보 관리', href: '/place-content' },
   { label: '장소 이미지 관리', href: '/place-image' },
   { label: '장소 부제목 관리', href: '/place-subname' },
-  { label: '장소 위치 수정', href: '/update-location' },
-  { label: '새로운 장소 추가', href: '/add-location' },
+  { label: '위치 정보 추가', href: '/add-location' },
 ];
 
 export function Header() {

@@ -33,11 +33,6 @@ export interface Friend {
   profileUrl: string;
 }
 
-export interface Location {
-  latitude: number;
-  longitude: number;
-}
-
 // 장소 정보 (지도 칩 API)
 export interface Place {
   placeId: number;
@@ -106,15 +101,11 @@ export interface UpdatePlaceSubnameBody {
   subName: string;
 }
 
-// 장소 추가 요청
-export interface CreatePlaceRequest extends Location {
+export interface CreatePlaceRequest {
   categoryChip: ChipCategory;
   name: string;
   subName: string;
   content: string;
-}
-
-// 장소 위치 수정 요청
-export interface UpdateLocationRequest extends Location {
-  placeId: number;
+  latitude: number;
+  longitude: number;
 }

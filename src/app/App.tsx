@@ -5,7 +5,6 @@ import { HomePage } from '@/pages/home';
 import { PlaceContentPage } from '@/pages/place-content';
 import { PlaceImagePage } from '@/pages/place-image';
 import { PlaceSubnamePage } from '@/pages/place-subname';
-import { UpdateLocationPage } from '@/pages/update-location';
 import { Header } from '@/widgets/header';
 
 export function App() {
@@ -21,7 +20,6 @@ export function App() {
             <Route path="/place-image" element={<PlaceImagePage />} />
             <Route path="/place-subname" element={<PlaceSubnamePage />} />
             <Route path="/add-location" element={<AddLocationPage />} />
-            <Route path="/update-location" element={<UpdateLocationPage />} />
           </Routes>
         </main>
       </div>

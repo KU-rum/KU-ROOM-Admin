@@ -7,7 +7,6 @@ export {
   getPlaceImages,
   getPlaces,
   updatePlaceContent,
-  updatePlaceLocation,
   updatePlaceSubname,
 } from './api/placeApi';
 export {
@@ -17,7 +16,6 @@ export {
   useGetPlaceById,
   useGetPlaceImages,
   useGetPlaces,
-  useUpdateLocation,
   useUpdatePlaceContent,
   useUpdatePlaceSubname,
 } from './api/queries';
@@ -30,11 +28,9 @@ export type {
   DeletePlaceImageRequest,
   Friend,
   GetPlacesRequest,
-  Location,
   Place,
   PlaceDetail,
   PlaceImage,
-  UpdateLocationRequest,
   UpdatePlaceContentBody,
   UpdatePlaceContentRequest,
   UpdatePlaceSubnameBody,
