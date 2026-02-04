@@ -5,6 +5,7 @@ import type {
   ChipCategory,
   CreatePlaceRequest,
   DeletePlaceImageRequest,
+  UpdateLocationRequest,
   UpdatePlaceContentRequest,
   UpdatePlaceSubnameRequest,
 } from '../model/types';
@@ -16,6 +17,7 @@ import {
   getPlaceImages,
   getPlaces,
   updatePlaceContent,
+  updatePlaceLocation,
   updatePlaceSubname,
 } from './placeApi';
 
@@ -121,6 +123,24 @@ export function useCreatePlace() {
     },
     onError: () => {
       alert('장소 추가 실패');
+    },
+  });
+}
+
+// 장소 위치 수정 mutation
+export function useUpdateLocation() {
+  const qc = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: UpdateLocationRequest) => updatePlaceLocation(data),
+    onSuccess: () => {
+      qc.invalidateQueries({
+        queryKey: ['places'],
+      });
+      alert('장소 위치 수정 성공');
+    },
+    onError: () => {
+      alert('장소 위치 수정 실패');
     },
   });
 }

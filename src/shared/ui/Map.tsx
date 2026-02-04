@@ -1,15 +1,29 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 import PinIcon from '@/assets/icons/location-pin-color.svg?react';
 import type { LatLng } from '@/shared/types';
 
 interface MapProps {
   handleChangeCenter: (center: LatLng) => void;
+  initialLocation?: LatLng;
 }
 
-export function Map({ handleChangeCenter }: MapProps) {
+export function Map({ handleChangeCenter, initialLocation }: MapProps) {
   const mapDivRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<naver.maps.Map | null>(null);
+
+  const initialLat = useMemo(
+    () => initialLocation?.lat || 37.5423,
+    [initialLocation],
+  );
+  const initialLng = useMemo(
+    () => initialLocation?.lng || 127.0765,
+    [initialLocation],
+  );
+  const initialZoom = useMemo(
+    () => (initialLocation ? 16 : 15),
+    [initialLocation],
+  );
 
   useEffect(() => {
     if (!mapDivRef.current) return;
@@ -21,10 +35,13 @@ export function Map({ handleChangeCenter }: MapProps) {
 
     // map은 한 번만 생성
     if (!mapRef.current) {
-      const initialCenter = new window.naver.maps.LatLng(37.5423, 127.0765);
+      const initialCenter = new window.naver.maps.LatLng(
+        initialLat,
+        initialLng,
+      );
       mapRef.current = new window.naver.maps.Map(mapDivRef.current, {
         center: initialCenter,
-        zoom: 15,
+        zoom: initialZoom,
       });
     }
 
@@ -48,7 +65,7 @@ export function Map({ handleChangeCenter }: MapProps) {
     return () => {
       window.naver.maps.Event.removeListener(idleListener);
     };
-  }, [handleChangeCenter]);
+  }, [handleChangeCenter, initialLat, initialLng, initialZoom]);
 
   return (
     <div className="relative">
