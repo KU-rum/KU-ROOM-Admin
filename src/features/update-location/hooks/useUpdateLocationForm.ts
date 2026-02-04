@@ -25,7 +25,6 @@ export function useUpdateLocationForm() {
 
   const placeDetail = placeDetailData?.data;
 
-  // 장소 위치 수정 mutation
   const { mutate, isPending } = useUpdateLocation();
 
   const isValid =
@@ -38,7 +37,7 @@ export function useUpdateLocationForm() {
 
   const handleChipChange = (chip: ChipCategory | '') => {
     setSelectedChip(chip === '' ? null : chip);
-    setPlaceId(''); // 칩 변경 시 장소 선택 초기화
+    setPlaceId('');
   };
 
   const handlePlaceChange = (id: string) => {
