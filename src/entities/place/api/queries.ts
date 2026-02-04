@@ -72,8 +72,8 @@ export function useAddPlaceImages() {
       });
       alert('이미지 추가 성공');
     },
-    onError: () => {
-      alert('이미지 추가 실패');
+    onError: (error) => {
+      alert(`이미지 추가 실패 : ${error.message}`);
     },
   });
 }
