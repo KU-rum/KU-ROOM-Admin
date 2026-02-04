@@ -25,6 +25,7 @@ export function useUpdateLocationForm() {
 
   const placeDetail = placeDetailData?.data;
 
+  // 장소 위치 수정 mutation
   const { mutate, isPending } = useUpdateLocation();
 
   const isValid =
