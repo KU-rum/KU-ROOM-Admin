@@ -32,6 +32,7 @@ export function PlaceImageForm() {
     isSuccess,
     isError,
     error,
+    isCompressing,
     handleSubmit,
     handleReset,
     handleDeleteImage,
@@ -231,9 +232,13 @@ export function PlaceImageForm() {
             type="submit"
             variant="primary"
             disabled={!isValid}
-            isLoading={isPending}
+            isLoading={isPending || isCompressing}
           >
-            {isPending ? '추가 중...' : '추가하기'}
+            {isCompressing
+              ? '압축 중...'
+              : isPending
+                ? '추가 중...'
+                : '추가하기'}
           </Button>
 
           <Button

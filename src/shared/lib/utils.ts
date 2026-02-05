@@ -1,3 +1,4 @@
+import imageCompression from 'browser-image-compression';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -8,4 +9,22 @@ import { twMerge } from 'tailwind-merge';
  */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+// 이미지 파일 압축 함수
+export async function compressImage(files: File[]): Promise<File[]> {
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
+
+  const compressedFiles = await Promise.all(
+    files.map(async (file) => {
+      const compressed = await imageCompression(file, options);
+      return compressed as File;
+    }),
+  );
+
+  return compressedFiles;
 }
