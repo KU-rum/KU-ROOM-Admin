@@ -69,9 +69,18 @@ export function usePlaceImageForm() {
 
     try {
       const compressedFiles = await compressImage(Array.from(files));
+      const totalSize = compressedFiles.reduce((sum, f) => sum + f.size, 0);
+      if (totalSize > 10 * 1024 * 1024) {
+        alert(
+          '압축 후 총 용량이 10MB를 초과합니다. 10MB 이하로 추가 가능합니다.',
+        );
+        setSelectedFiles([]);
+        return;
+      }
       setSelectedFiles(compressedFiles);
     } catch {
       alert('이미지 압축 중 오류가 발생했습니다.');
+      setSelectedFiles([]);
     } finally {
       setIsCompressing(false);
       e.target.value = ''; // 같은 파일 다시 선택 가능하게(원하면 제거)
