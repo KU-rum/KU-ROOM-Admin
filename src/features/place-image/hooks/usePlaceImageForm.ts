@@ -8,11 +8,13 @@ import {
   useGetPlaceImages,
   useGetPlaces,
 } from '@/entities/place';
+import { compressImage } from '@/shared/lib/utils';
 
 export function usePlaceImageForm() {
   const [selectedChip, setSelectedChip] = useState<ChipCategory | null>(null);
   const [placeId, setPlaceId] = useState('');
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isCompressing, setIsCompressing] = useState(false);
 
   // 칩 선택 시 장소 목록 조회
   const {
@@ -59,14 +61,31 @@ export function usePlaceImageForm() {
     reset();
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files && files.length > 0) {
-      // FileList를 File[] 배열로 변환
-      setSelectedFiles(Array.from(files));
+    if (!files || files.length === 0) return;
+
+    setIsCompressing(true);
+
+    try {
+      const compressedFiles = await compressImage(Array.from(files));
+      const totalSize = compressedFiles.reduce((sum, f) => sum + f.size, 0);
+      if (totalSize > 10 * 1024 * 1024) {
+        alert(
+          '압축 후 총 용량이 10MB를 초과합니다. 10MB 이하로 추가 가능합니다.',
+        );
+        setSelectedFiles([]);
+        return;
+      }
+      setSelectedFiles(compressedFiles);
+    } catch {
+      alert('이미지 압축 중 오류가 발생했습니다.');
+      setSelectedFiles([]);
+    } finally {
+      setIsCompressing(false);
+      e.target.value = ''; // 같은 파일 다시 선택 가능하게(원하면 제거)
     }
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -135,6 +154,8 @@ export function usePlaceImageForm() {
     isSuccess,
     isError,
     error,
+
+    isCompressing,
 
     // Actions
     handleSubmit,
