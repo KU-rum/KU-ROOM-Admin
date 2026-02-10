@@ -1,6 +1,18 @@
 import axios from 'axios';
 
-import { ApiClientError, type ApiErrorBody } from './types';
+import { ApiClientError, type ApiErrorBody, type ApiResponse } from './types';
+
+const isApiResponse = (
+  x: unknown,
+): x is { code: number; status: string; message: string } => {
+  if (!x || typeof x !== 'object') return false;
+  const obj = x as ApiResponse;
+  return (
+    typeof obj.code === 'number' &&
+    typeof obj.status === 'string' &&
+    typeof obj.message === 'string'
+  );
+};
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -18,7 +30,27 @@ apiClient.interceptors.request.use((config) => {
 
 // Response interceptor - 에러 처리
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    const body = response.data;
+
+    if (isApiResponse(body) && body.code === 401) {
+      const apiError: ApiErrorBody = {
+        code: body.code,
+        status: body.status,
+        message: body.message,
+      };
+
+      alert('권한이 없습니다.');
+      localStorage.removeItem('accessToken');
+      if (window.location.pathname !== '/login') {
+        window.location.replace('/login');
+      }
+
+      return Promise.reject(new ApiClientError(apiError));
+    }
+
+    return response;
+  },
   (error: unknown) => {
     let apiError: ApiErrorBody = {
       message: '요청 실패',
