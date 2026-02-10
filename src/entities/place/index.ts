@@ -1,4 +1,5 @@
 // API
+export { loginApi } from './api/loginApi';
 export {
   addPlaceImages,
   createPlace,
@@ -17,6 +18,7 @@ export {
   useGetPlaceById,
   useGetPlaceImages,
   useGetPlaces,
+  useLogin,
   useUpdateLocation,
   useUpdatePlaceContent,
   useUpdatePlaceSubname,
@@ -31,6 +33,8 @@ export type {
   Friend,
   GetPlacesRequest,
   Location,
+  LoginRequest,
+  LoginResponse,
   Place,
   PlaceDetail,
   PlaceImage,
