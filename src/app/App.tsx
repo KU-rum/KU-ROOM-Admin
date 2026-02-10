@@ -29,15 +29,19 @@ function AppLayout() {
     }
   }, [pathname, token, isLoginPage, navigate]);
 
+  if (!token && !isLoginPage) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {!isLoginPage && <Header />}
 
       <main
-        className={
-          (cn('mx-auto max-w-7xl sm:px-6 lg:px-8'),
-          isLoginPage ? '' : 'px-4 py-8')
-        }
+        className={cn(
+          'mx-auto max-w-7xl sm:px-6 lg:px-8',
+          !isLoginPage && 'px-4 py-8',
+        )}
       >
         <Routes>
           <Route path="/login" element={<Login />} />

@@ -167,7 +167,7 @@ export function useLogin() {
       navigate('/');
     },
     onError: (error) => {
-      alert(error.response.message);
+      alert(error.response?.message ?? error.message);
     },
   });
 }

@@ -134,7 +134,7 @@ export interface LoginResponse {
     isFirstLogin: boolean;
   };
   userResponse: {
-    id: 1;
+    id: number;
     oauthId: string;
     loginId: string;
     email: string;
