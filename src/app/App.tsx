@@ -1,4 +1,11 @@
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 
 import { AddLocationPage } from '@/pages/add-location';
 import { HomePage } from '@/pages/home';
@@ -12,7 +19,15 @@ import { Header } from '@/widgets/header';
 
 function AppLayout() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const isLoginPage = pathname === '/login';
+  const token = localStorage.getItem('accessToken');
+
+  useEffect(() => {
+    if (!token && !isLoginPage) {
+      navigate('/login');
+    }
+  }, [pathname, token, isLoginPage, navigate]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -25,8 +40,8 @@ function AppLayout() {
         }
       >
         <Routes>
-          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/place-content" element={<PlaceContentPage />} />
           <Route path="/place-image" element={<PlaceImagePage />} />
           <Route path="/place-subname" element={<PlaceSubnamePage />} />

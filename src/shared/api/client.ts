@@ -40,7 +40,7 @@ apiClient.interceptors.response.use(
         message: body.message,
       };
 
-      alert('권한이 없습니다.');
+      alert('잘못된 토큰입니다. 다시 로그인해주세요.');
       localStorage.removeItem('accessToken');
       if (window.location.pathname !== '/login') {
         window.location.replace('/login');
@@ -68,7 +68,7 @@ apiClient.interceptors.response.use(
       };
 
       if (error.response?.status === 401 || apiError.code === 401) {
-        alert('권한이 없습니다.');
+        alert('잘못된 토큰입니다. 다시 로그인해주세요.');
         localStorage.removeItem('accessToken');
         if (window.location.pathname !== '/login') {
           window.location.replace('/login');
