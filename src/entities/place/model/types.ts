@@ -5,8 +5,8 @@ export type ChipCategory =
   | 'K_CUBE'
   | 'K_HUB'
   | 'CONVENIENCE_STORE'
-  | 'CAFE_RESTIO'
-  | 'CAFE_1847'
+  | 'CAFE'
+  | 'COPY_ROOM'
   | 'STUDENT_CAFETERIA'
   | 'DORMITORY'
   | 'BANK'
@@ -19,8 +19,8 @@ export const CHIP_LABELS: Record<ChipCategory, string> = {
   K_CUBE: 'K-Cube',
   K_HUB: 'K-Hub',
   CONVENIENCE_STORE: '편의점',
-  CAFE_RESTIO: '레스티오',
-  CAFE_1847: '1847',
+  CAFE: '카페',
+  COPY_ROOM: '복사실',
   STUDENT_CAFETERIA: '학생식당',
   DORMITORY: '기숙사',
   BANK: '은행',
