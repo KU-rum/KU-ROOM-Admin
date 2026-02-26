@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import type { ApiClientError } from '@/shared/api/types';
 
 import type {
+  AddBannerRequest,
   AddPlaceImagesRequest,
   ChipCategory,
   CreatePlaceRequest,
@@ -14,6 +15,7 @@ import type {
   UpdatePlaceContentRequest,
   UpdatePlaceSubnameRequest,
 } from '../model/types';
+import { addBannerApi } from './bannerApi';
 import { loginApi } from './loginApi';
 import {
   addPlaceImages,
@@ -168,6 +170,23 @@ export function useLogin() {
     },
     onError: (error) => {
       alert(error.response?.message ?? error.message);
+    },
+  });
+}
+
+export function useAddBanner() {
+  // 추후 배너 조회 api 캐싱 초기화
+  // const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (data: AddBannerRequest) => addBannerApi(data),
+    onSuccess: () => {
+      // qc.invalidateQueries({
+      //   queryKey: ['places'],
+      // });
+      alert('배너 추가 성공');
+    },
+    onError: (error) => {
+      alert(`배너 추가 실패 : ${error.message}`);
     },
   });
 }

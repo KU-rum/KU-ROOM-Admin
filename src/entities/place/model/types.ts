@@ -144,3 +144,8 @@ export interface LoginResponse {
     departmentResponse: string[];
   };
 }
+
+export interface AddBannerRequest {
+  link: string;
+  image: File;
+}

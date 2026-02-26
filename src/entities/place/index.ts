@@ -1,4 +1,5 @@
 // API
+export { addBannerApi } from './api/bannerApi';
 export { loginApi } from './api/loginApi';
 export {
   addPlaceImages,
@@ -12,6 +13,7 @@ export {
   updatePlaceSubname,
 } from './api/placeApi';
 export {
+  useAddBanner,
   useAddPlaceImages,
   useCreatePlace,
   useDeletePlaceImage,
@@ -26,6 +28,7 @@ export {
 
 // Types
 export type {
+  AddBannerRequest,
   AddPlaceImagesRequest,
   ChipCategory,
   CreatePlaceRequest,
