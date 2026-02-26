@@ -1,22 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-
-import type { ApiClientError } from '@/shared/api/types';
 
 import type {
-  AddBannerRequest,
   AddPlaceImagesRequest,
   ChipCategory,
   CreatePlaceRequest,
   DeletePlaceImageRequest,
-  LoginRequest,
-  LoginResponse,
   UpdateLocationRequest,
   UpdatePlaceContentRequest,
   UpdatePlaceSubnameRequest,
 } from '../model/types';
-import { addBannerApi } from './bannerApi';
-import { loginApi } from './loginApi';
 import {
   addPlaceImages,
   createPlace,
@@ -149,44 +141,6 @@ export function useUpdateLocation() {
     },
     onError: () => {
       alert('장소 위치 수정 실패');
-    },
-  });
-}
-
-// 로그인 mutation
-export function useLogin() {
-  const navigate = useNavigate();
-  return useMutation<LoginResponse | undefined, ApiClientError, LoginRequest>({
-    mutationFn: (loginData) => loginApi(loginData),
-    onSuccess: (response) => {
-      if (!response) {
-        alert('로그인 중 오류 발생');
-        return;
-      }
-      const raw = response.tokenResponse.accessToken ?? '';
-      const tokenOnly = raw.replace(/^Bearer\s+/i, '');
-      localStorage.setItem('accessToken', tokenOnly);
-      navigate('/');
-    },
-    onError: (error) => {
-      alert(error.response?.message ?? error.message);
-    },
-  });
-}
-
-export function useAddBanner() {
-  // 추후 배너 조회 api 캐싱 초기화
-  // const qc = useQueryClient();
-  return useMutation({
-    mutationFn: (data: AddBannerRequest) => addBannerApi(data),
-    onSuccess: () => {
-      // qc.invalidateQueries({
-      //   queryKey: ['places'],
-      // });
-      alert('배너 추가 성공');
-    },
-    onError: (error) => {
-      alert(`배너 추가 실패 : ${error.message}`);
     },
   });
 }

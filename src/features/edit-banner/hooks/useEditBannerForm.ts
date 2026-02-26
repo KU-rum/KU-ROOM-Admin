@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useAddBanner } from '@/entities/place';
+import { useAddBanner } from '@/entities/banner';
 
 export function useEditBannerForm() {
   const [link, setLink] = useState('');
