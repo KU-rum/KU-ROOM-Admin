@@ -49,7 +49,7 @@ export function useEditBannerForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isValid) return;
+    if (!isValid || isPendingAddBanner) return;
 
     addBanner({ link, image: selectedFile }, { onSuccess: () => reset() });
   };
