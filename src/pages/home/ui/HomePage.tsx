@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 
+import BannerIcon from '@/assets/icons/banner.svg?react';
 import ImageIcon from '@/assets/icons/image.svg?react';
 import LocationIcon from '@/assets/icons/location.svg?react';
 import LocationPinIcon from '@/assets/icons/location-pin.svg?react';
@@ -106,6 +107,25 @@ export function HomePage() {
               </p>
               <p className="mt-1 text-lg font-semibold text-gray-900">
                 새로운 장소
+              </p>
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to="/edit-banner"
+          className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary-200 hover:shadow-lg hover:shadow-primary-500/10"
+        >
+          <div className="flex items-center gap-4">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-50 text-primary-600 transition-colors duration-200 group-hover:bg-primary-100">
+              <BannerIcon className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-500">
+                기존 배너 삭제 및 새로운 배너 추가
+              </p>
+              <p className="mt-1 text-lg font-semibold text-gray-900">
+                배너 편집
               </p>
             </div>
           </div>

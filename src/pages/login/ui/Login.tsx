@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import logo from '@/assets/logo.svg';
-import { useLogin } from '@/entities/place';
+import { useLogin } from '@/entities/auth';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
 

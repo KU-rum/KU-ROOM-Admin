@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 
 import { AddLocationPage } from '@/pages/add-location';
+import { EditBannerPage } from '@/pages/edit-banner';
 import { HomePage } from '@/pages/home';
 import { Login } from '@/pages/login';
 import { PlaceContentPage } from '@/pages/place-content';
@@ -51,6 +52,7 @@ function AppLayout() {
           <Route path="/place-subname" element={<PlaceSubnamePage />} />
           <Route path="/add-location" element={<AddLocationPage />} />
           <Route path="/update-location" element={<UpdateLocationPage />} />
+          <Route path="/edit-banner" element={<EditBannerPage />} />
         </Routes>
       </main>
     </div>
