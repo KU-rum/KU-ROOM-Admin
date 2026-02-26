@@ -1,12 +1,24 @@
 import { useState } from 'react';
 
-import { useAddBanner } from '@/entities/banner';
+import {
+  useAddBanner,
+  useDeleteBanner,
+  useGetBanners,
+} from '@/entities/banner';
 
 export function useEditBannerForm() {
   const [link, setLink] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const { mutate, isPending: isPendingAddBanner } = useAddBanner();
+  const {
+    data: bannersData,
+    isLoading: isLoadingBanners,
+    isError: isBannersError,
+  } = useGetBanners();
+
+  const { mutate: addBanner, isPending: isPendingAddBanner } = useAddBanner();
+
+  const { mutate: deleteBanner } = useDeleteBanner();
 
   const handleChangeLink = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLink(e.target.value);
@@ -38,21 +50,31 @@ export function useEditBannerForm() {
     e.preventDefault();
 
     if (!isValid) return;
-    // TODO: 서버 링크 추가 요청
 
-    mutate({ link, image: selectedFile });
+    addBanner({ link, image: selectedFile }, { onSettled: () => reset() });
   };
 
   const handleReset = () => {
     reset();
   };
 
+  const handleDeleteBanner = (bannerId: number) => {
+    const result = window.confirm('정말 삭제하시겠습니까?');
+    if (result) {
+      deleteBanner(bannerId);
+    }
+  };
+
   return {
+    bannersData,
     link,
     selectedFile,
+    isLoadingBanners,
+    isBannersError,
     handleChangeLink,
     handleFileChange,
     handleSubmit,
+    handleDeleteBanner,
     handleReset,
     isValid,
     isPendingAddBanner,

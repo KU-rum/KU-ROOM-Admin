@@ -78,6 +78,7 @@ export function useAddPlaceImages() {
   });
 }
 
+// 장소 이미지 삭제 Mutation
 export function useDeletePlaceImage() {
   const qc = useQueryClient();
 
