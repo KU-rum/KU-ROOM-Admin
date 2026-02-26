@@ -1,3 +1,5 @@
+import { useEffect, useMemo } from 'react';
+
 import IcCloseBtn from '@/assets/icons/close-btn.svg?react';
 import { useEditBannerForm } from '@/features/edit-banner';
 import { Alert, Button, Card, FileInput, Input } from '@/shared/ui';
@@ -18,55 +20,68 @@ export function EditBannerForm() {
     isPendingAddBanner,
   } = useEditBannerForm();
 
+  const previewUrl = useMemo(
+    () => (selectedFile ? URL.createObjectURL(selectedFile) : null),
+    [selectedFile],
+  );
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
   return (
     <div>
-      {bannersData && (
-        <div className="mb-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-          <dt className="mb-3 text-sm font-bold text-gray-700">현재 배너</dt>
-          {isLoadingBanners && (
-            <span className="text-sm text-primary-600">불러오는 중...</span>
-          )}
-          {bannersData && bannersData.length > 0 ? (
-            <dd className="flex flex-col flex-wrap gap-3">
-              {bannersData.map((banner) => (
-                <div key={banner.bannerId} className="relative w-full">
-                  <a
-                    key={banner.bannerLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={banner.bannerLink}
-                    className="mb-1 block w-full whitespace-normal break-all text-sm text-primary-600 underline"
-                  >
-                    {banner.bannerLink}
-                  </a>
-                  <img
-                    src={banner.bannerImageUrl}
-                    alt={`장소 이미지 ${banner.bannerId}`}
-                    className="w-full max-w-[600px] rounded object-cover"
-                  />
-                  <button
-                    type="button"
-                    aria-label="이미지 삭제"
-                    className="absolute right-2 top-8 h-8 w-8"
-                    onClick={() => handleDeleteBanner(banner.bannerId)}
-                  >
-                    <IcCloseBtn className="h-8 w-8" />
-                  </button>
-                </div>
-              ))}
-            </dd>
-          ) : (
-            <span className="text-sm font-medium text-gray-700">없음</span>
-          )}
-        </div>
-      )}
+      <div className="mb-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+        {isLoadingBanners && (
+          <span className="text-sm text-primary-600">불러오는 중...</span>
+        )}
+        {bannersData && (
+          <>
+            <dt className="mb-3 text-sm font-bold text-gray-700">현재 배너</dt>
+            {bannersData && bannersData.length > 0 ? (
+              <dd className="flex flex-col flex-wrap gap-3">
+                {bannersData.map((banner) => (
+                  <div key={banner.bannerId} className="relative w-full">
+                    <a
+                      key={banner.bannerLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={banner.bannerLink}
+                      className="mb-1 block w-full whitespace-normal break-all text-sm text-primary-600 underline"
+                    >
+                      {banner.bannerLink}
+                    </a>
+                    <img
+                      src={banner.bannerImageUrl}
+                      alt={`장소 이미지 ${banner.bannerId}`}
+                      className="w-full max-w-[600px] rounded object-cover"
+                    />
+                    <button
+                      type="button"
+                      aria-label="이미지 삭제"
+                      className="absolute right-2 top-8 h-8 w-8"
+                      onClick={() => handleDeleteBanner(banner.bannerId)}
+                    >
+                      <IcCloseBtn className="h-8 w-8" />
+                    </button>
+                  </div>
+                ))}
+              </dd>
+            ) : (
+              <span className="text-sm font-medium text-gray-700">없음</span>
+            )}
+          </>
+        )}
+      </div>
 
       <Card>
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
             id="link"
             label="추가할 링크"
-            type="link"
+            type="url"
             required
             value={link}
             onChange={handleChangeLink}
@@ -89,7 +104,7 @@ export function EditBannerForm() {
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                 <div className="relative">
                   <img
-                    src={URL.createObjectURL(selectedFile)}
+                    src={previewUrl ?? ''}
                     alt={'선택된 배너 이미지'}
                     className="h-24 w-full rounded object-cover"
                   />

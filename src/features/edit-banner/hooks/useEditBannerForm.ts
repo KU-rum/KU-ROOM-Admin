@@ -51,7 +51,7 @@ export function useEditBannerForm() {
 
     if (!isValid) return;
 
-    addBanner({ link, image: selectedFile }, { onSettled: () => reset() });
+    addBanner({ link, image: selectedFile }, { onSuccess: () => reset() });
   };
 
   const handleReset = () => {
