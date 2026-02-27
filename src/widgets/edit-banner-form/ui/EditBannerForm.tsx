@@ -18,6 +18,7 @@ export function EditBannerForm() {
     handleReset,
     isValid,
     isPendingAddBanner,
+    isCompressing,
   } = useEditBannerForm();
 
   const previewUrl = useMemo(
@@ -133,9 +134,13 @@ export function EditBannerForm() {
               type="submit"
               variant="primary"
               disabled={!isValid}
-              isLoading={isPendingAddBanner}
+              isLoading={isPendingAddBanner || isCompressing}
             >
-              {isPendingAddBanner ? '추가 중...' : '추가하기'}
+              {isCompressing
+                ? '압축 중...'
+                : isPendingAddBanner
+                  ? '추가 중...'
+                  : '추가하기'}
             </Button>
 
             <Button

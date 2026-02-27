@@ -5,10 +5,12 @@ import {
   useDeleteBanner,
   useGetBanners,
 } from '@/entities/banner';
+import { compressImage } from '@/shared/lib/utils';
 
 export function useEditBannerForm() {
   const [link, setLink] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isCompressing, setIsCompressing] = useState(false);
 
   const {
     data: bannersData,
@@ -35,15 +37,18 @@ export function useEditBannerForm() {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    if (files[0].size > 10 * 1024 * 1024) {
-      alert(
-        '압축 후 총 용량이 10MB를 초과합니다. 10MB 이하로 추가 가능합니다.',
-      );
-      setSelectedFile(null);
-      return;
-    }
+    setIsCompressing(true);
 
-    setSelectedFile(files[0]);
+    try {
+      const compressedFile = await compressImage(Array.from(files), 0.2);
+      setSelectedFile(compressedFile[0]);
+    } catch {
+      alert('이미지 압축 중 오류가 발생했습니다.');
+      setSelectedFile(null);
+    } finally {
+      setIsCompressing(false);
+      e.target.value = ''; // 같은 파일 다시 선택 가능하게(원하면 제거)
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -78,5 +83,6 @@ export function useEditBannerForm() {
     handleReset,
     isValid,
     isPendingAddBanner,
+    isCompressing,
   };
 }

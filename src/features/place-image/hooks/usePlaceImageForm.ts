@@ -68,7 +68,7 @@ export function usePlaceImageForm() {
     setIsCompressing(true);
 
     try {
-      const compressedFiles = await compressImage(Array.from(files));
+      const compressedFiles = await compressImage(Array.from(files), 1);
       const totalSize = compressedFiles.reduce((sum, f) => sum + f.size, 0);
       if (totalSize > 10 * 1024 * 1024) {
         alert(

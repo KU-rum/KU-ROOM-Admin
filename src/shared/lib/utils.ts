@@ -12,9 +12,12 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 // 이미지 파일 압축 함수
-export async function compressImage(files: File[]): Promise<File[]> {
+export async function compressImage(
+  files: File[],
+  maxSizeMB: number,
+): Promise<File[]> {
   const options = {
-    maxSizeMB: 1,
+    maxSizeMB,
     maxWidthOrHeight: 1920,
     useWebWorker: true,
   };
