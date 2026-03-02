@@ -21,31 +21,32 @@ export const apiClient = axios.create({
   },
 });
 
-// Request interceptor - 토큰 추가
+const handleInvalidToken = () => {
+  alert('잘못된 토큰입니다. 다시 로그인해주세요.');
+  localStorage.removeItem('accessToken');
+  if (window.location.pathname !== '/login') {
+    window.location.replace('/login');
+  }
+};
+
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
-// Response interceptor - 에러 처리
 apiClient.interceptors.response.use(
   (response) => {
     const body = response.data;
 
-    if (isApiResponse(body) && body.code === 401) {
+    if (isApiResponse(body) && body.code === 1005) {
       const apiError: ApiErrorBody = {
         code: body.code,
         status: body.status,
         message: body.message,
       };
 
-      alert('잘못된 토큰입니다. 다시 로그인해주세요.');
-      localStorage.removeItem('accessToken');
-      if (window.location.pathname !== '/login') {
-        window.location.replace('/login');
-      }
-
+      handleInvalidToken();
       return Promise.reject(new ApiClientError(apiError));
     }
 
@@ -53,33 +54,32 @@ apiClient.interceptors.response.use(
   },
   (error: unknown) => {
     let apiError: ApiErrorBody = {
-      message: '요청 실패',
+      message: '알 수 없는 오류',
       status: 'ERROR',
     };
 
-    // axios 에러일 때만 response.data 접근
     if (axios.isAxiosError<ApiErrorBody>(error)) {
       const data = error.response?.data;
 
       apiError = {
         code: data?.code ?? error.response?.status,
         status: data?.status ?? error.response?.statusText ?? 'ERROR',
-        message: data?.message ?? error.message ?? '요청 실패',
+        message: data?.message ?? error.message ?? '알 수 없는 오류',
       };
 
-      if (error.response?.status === 401 || apiError.code === 401) {
-        alert('잘못된 토큰입니다. 다시 로그인해주세요.');
-        localStorage.removeItem('accessToken');
-        if (window.location.pathname !== '/login') {
-          window.location.replace('/login');
-        }
+      const responseStatus = error.response?.status;
+      const responseCode = Number(data?.code);
+      if (
+        responseStatus === 401 ||
+        responseStatus === 403 ||
+        responseCode === 1005
+      ) {
+        handleInvalidToken();
       }
     } else {
-      // axios 에러가 아닌 경우도 통일
-      apiError = { message: '알 수 없는 오류', status: 'ERROR' };
+      apiError = { message: '네트워크 연결 오류', status: 'ERROR' };
     }
 
-    // error.response.message 형태로 쓰게 만들기
     return Promise.reject(new ApiClientError(apiError));
   },
 );
